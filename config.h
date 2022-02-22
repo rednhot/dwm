@@ -69,6 +69,8 @@ static const Layout layouts[] = {
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
+/* Note: my own self-written scripts probably can be found on my github page. */
+
 /* misc commands */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[]  = { "st", "-z", "16", NULL };
@@ -79,9 +81,9 @@ static const char *discordcmd[] = { "discord", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-z", "16", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *fmcmd[] = { "pcmanfm", NULL };
-static const char *share_filecmd[] = { "share", NULL };
-static const char *getfilepathcmd[] = { "getfile", NULL };
-static const char *postselcmd[] = { "share_selection", NULL };
+static const char *share_filecmd[] = { "share", NULL };        /* self-written script */
+static const char *getfilepathcmd[] = { "getfile", NULL };     /* self-written script */
+static const char *postselcmd[] = { "share_selection", NULL }; /* self-written script */
 
 /* volume management commands */
 static const char *upvol[] = { "amixer", "-q", "sset", "Master", "5%+", NULL };
@@ -92,10 +94,10 @@ static const char *mute[] = { "amixer", "-q", "-D", "pulse", "sset", "Master", "
 static const char *haltcmd[] = { "sudo", "shutdown", "-h", "now", NULL };
 static const char *rebootcmd[] = { "sudo", "shutdown", "-r", "now", NULL };
 static const char *suspendcmd[] = { "sudo", "s2ram", NULL };
-static const char *brightupcmd[] = { "sudo", "brightmod", "+10%", NULL };
-static const char *brightdowncmd[]= { "sudo", "brightmod", "-10%", NULL };
+static const char *brightupcmd[] = { "sudo", "brightmod", "+10%", NULL };   /* self-written script */
+static const char *brightdowncmd[]= { "sudo", "brightmod", "-10%", NULL };  /* self-written script */
 
-/* screenshots */
+/* screenshots (selfwritten) */
 static const char *scrn_full_diskcmd[] = {"screenshot", "-d", "/home/mathway/pics", "-f", NULL};
 static const char *scrn_part_diskcmd[] = {"screenshot", "-d", "/home/mathway/pics", "-p", NULL};
 static const char *scrn_full_clipcmd[] = {"screenshot", "-c", "-f", NULL};
