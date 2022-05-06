@@ -37,7 +37,7 @@ static const Rule rules[] = {
     { "imaginary_program_name",               NULL,       NULL,       1 << 1,       0,           -1 },
     { "discord",                              NULL,       NULL,       1 << 3,       0,           -1 },
     { "TelegramDesktop",                      NULL,       NULL,       1 << 3,       0,           -1 },
-    { "Firefox",                              NULL,       NULL,       1 << 2,       0,           -1 },
+    { "firefox",                              NULL,       NULL,       1 << 2,       0,           -1 },
     { "ghidra-Ghidra",                        NULL,       NULL,       1 << 6,       1,           -1 },
 };
 
@@ -71,7 +71,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 
 /* Note: my own self-written scripts probably can be found on my github page. */
 
-/* misc commands */
+/* Application start */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[]  = { "st", "-z", "16", NULL };
 static const char *dumbtermcmd[]  = { "st_dumb", "-z", "16", NULL };
@@ -80,30 +80,36 @@ static const char *telegramcmd[] = { "telegram-desktop", NULL };
 static const char *discordcmd[] = { "discord", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-z", "16", "-t", scratchpadname, "-g", "120x34", NULL };
-static const char *fmcmd[] = { "pcmanfm", NULL };
+static const char *fmcmd[] = { "sh", "-c", "emacsclient -c --eval \"(dired \\\"/home/mathway\\\")\"" , NULL };
+static const char *emacsclientcmd[] = {"emacsclient", "-c", NULL };
+
+/* Share some content to public */
 static const char *share_filecmd[] = { "share", NULL };        /* self-written script */
 static const char *getfilepathcmd[] = { "getfile", NULL };     /* self-written script */
 static const char *postselcmd[] = { "share_selection", NULL }; /* self-written script */
 
-/* volume management commands */
+/* Volume management */
 static const char *upvol[] = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *downvol[] = { "amixer", "-q", "sset", "Master", "5%-", NULL };
 static const char *mute[] = { "amixer", "-q", "-D", "pulse", "sset", "Master", "toggle", NULL };
 
-/* power management */
+/* Power & session management */
 static const char *haltcmd[] = { "sudo", "shutdown", "-h", "now", NULL };
 static const char *rebootcmd[] = { "sudo", "shutdown", "-r", "now", NULL };
-static const char *suspendcmd[] = { "sudo", "s2ram", NULL };
+static const char *suspendcmd[] = { "sudo", "loginctl", "suspend", NULL };
+static const char *lockcmd[] = { "sudo", "loginctl", "lock-session", NULL };
 static const char *brightupcmd[] = { "sudo", "brightmod", "+10%", NULL };   /* self-written script */
 static const char *brightdowncmd[]= { "sudo", "brightmod", "-10%", NULL };  /* self-written script */
 
-/* screenshots (selfwritten) */
-static const char *scrn_full_diskcmd[] = {"screenshot", "-d", "/home/mathway/pics", "-f", NULL};
-static const char *scrn_part_diskcmd[] = {"screenshot", "-d", "/home/mathway/pics", "-p", NULL};
-static const char *scrn_full_clipcmd[] = {"screenshot", "-c", "-f", NULL};
-static const char *scrn_part_clipcmd[] = {"screenshot", "-c", "-p", NULL};
+/* Screenshot management */
+static const char *scrn_full_diskcmd[] = {"screenshot", "-d", "/home/mathway/pics", "-f", NULL}; /* Self-written script */
+static const char *scrn_part_diskcmd[] = {"screenshot", "-d", "/home/mathway/pics", "-p", NULL}; /* Self-written script */
+static const char *scrn_full_clipcmd[] = {"screenshot", "-c", "-f", NULL}; /* Self-written script */
+static const char *scrn_part_clipcmd[] = {"screenshot", "-c", "-p", NULL}; /* Self-written script */
 
-
+/* Miscellaneous commands */
+static const char *toggle_lft_scrn_cmd[] = {"screenctl", "--command", "toggle", "--output", "DP2", NULL}; /* Self-written script */
+static const char *toggle_rt_scrn_cmd[] = {"screenctl", "--command", "toggle", "--output", "eDP1", NULL}; /* Self-written script */
 
 
 #include "shift-tools.c"
@@ -113,17 +119,21 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = dumbtermcmd } },
+	{ MODKEY|ShiftMask,             XK_u,      spawn,          {.v = dumbtermcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      spawn,          {.v = browsercmd } },
 	{ MODKEY|ShiftMask,             XK_t,      spawn,          {.v = telegramcmd } },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = discordcmd } },
-	{ MODKEY,                       XK_e,      spawn,          {.v = fmcmd } },
+	{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = emacsclientcmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = fmcmd } },             
 	{ MODKEY|ShiftMask,          XK_backslash, spawn,          {.v = share_filecmd } },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = getfilepathcmd } },
 	{ MODKEY|ShiftMask,             XK_g,      spawn,          {.v = postselcmd } },
 	{ MODKEY|ShiftMask|ControlMask, XK_h,      spawn,          {.v = haltcmd } },
 	{ MODKEY|ShiftMask|ControlMask, XK_r,      spawn,          {.v = rebootcmd } },	
 	{ MODKEY|ShiftMask|ControlMask, XK_s,      spawn,          {.v = suspendcmd } },
+	{ MODKEY,                       XK_Delete, spawn,          {.v = lockcmd} },
+	{ MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = toggle_lft_scrn_cmd} },
+	{ MODKEY|Mod1Mask,              XK_l,      spawn,          {.v = toggle_rt_scrn_cmd} },
         { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol } },
 	{ 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
 	{ 0,              XF86XK_AudioMute,        spawn,          {.v = mute } },
@@ -180,13 +190,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	TAGKEYS(                        XK_9,                      9)
 };
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/* click                event mask      button          function        argument */
+	/* click                event mask      button          function        arguument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
