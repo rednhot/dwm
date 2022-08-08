@@ -41,7 +41,7 @@ static const Rule rules[] = {
     { "imaginary_program_name",               NULL,       NULL,       1 << 1,       0,           -1 },
     { "discord",                              NULL,       NULL,       1 << 3,       0,           -1 },
     { "TelegramDesktop",                      NULL,       NULL,       1 << 3,       0,           -1 },
-    { "firefox",                              NULL,       NULL,       1 << 2,       0,           -1 },
+    { "Firefox-esr",                          NULL,       NULL,       1 << 2,       0,           -1 },
     { "ghidra-Ghidra",                        NULL,       NULL,       1 << 6,       1,           -1 },
 };
 
@@ -100,7 +100,7 @@ static const char *mute[] = { "amixer", "-q", "-D", "pulse", "sset", "Master", "
 /* Power & session management */
 static const char *haltcmd[] = { "sudo", "shutdown", "-h", "now", NULL };
 static const char *rebootcmd[] = { "sudo", "shutdown", "-r", "now", NULL };
-static const char *suspendcmd[] = { "sudo", "loginctl", "suspend", NULL };
+static const char *suspendcmd[] = { "sudo", "systemctl", "suspend", NULL };
 static const char *lockcmd[] = { "sudo", "loginctl", "lock-session", NULL };
 static const char *brightupcmd[] = { "sudo", "brightmod", "+10%", NULL };   /* self-written script */
 static const char *brightdowncmd[]= { "sudo", "brightmod", "-10%", NULL };  /* self-written script */
