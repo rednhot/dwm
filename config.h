@@ -112,8 +112,8 @@ static const char *scrn_full_clipcmd[] = {"screenshot", "-c", "-f", NULL}; /* Se
 static const char *scrn_part_clipcmd[] = {"screenshot", "-c", "-p", NULL}; /* Self-written script */
 
 /* Miscellaneous commands */
-static const char *toggle_lft_scrn_cmd[] = {"screenctl", "--command", "toggle", "--output", "DP-2", NULL}; /* Self-written script */
-static const char *toggle_rt_scrn_cmd[] = {"screenctl", "--command", "toggle", "--output", "e-DP1", NULL}; /* Self-written script */
+static const char *toggle_lft_scrn_cmd[] = {"screenctl", "--command", "toggle", "--output", "DP-1", NULL}; /* Self-written script */
+static const char *toggle_rt_scrn_cmd[] = {"screenctl", "--command", "toggle", "--output", "eDP-1", NULL}; /* Self-written script */
 
 
 #include "shift-tools.c"
@@ -138,7 +138,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Delete, spawn,          {.v = lockcmd} },
 	{ MODKEY|Mod1Mask,              XK_h,      spawn,          {.v = toggle_lft_scrn_cmd} },
 	{ MODKEY|Mod1Mask,              XK_l,      spawn,          {.v = toggle_rt_scrn_cmd} },
-        { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol } },
+	{ 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol } },
 	{ 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
 	{ 0,              XF86XK_AudioMute,        spawn,          {.v = mute } },
 	{ ControlMask,                  PrtSc,     spawn,          {.v = scrn_full_diskcmd} },
